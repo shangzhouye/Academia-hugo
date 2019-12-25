@@ -10,13 +10,16 @@
 <div class="project-card project-item isotope-item {{ $js_tag_classes | safeHTMLAttr }}">
   <div class="card rounded-0 shadow-sm">
     {{ with $resource }}
-    {{ $image := .Resize (printf "550x q90 %s") }}
+    {{ $image := .}}
     <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="card-image">
       <img src="{{ $image.RelPermalink }}" alt="" class="img-responsive">
     </a>
     {{ end }}
     <div class="card-body">
-      <h4><a href="{{ $link }}" {{ $target | safeHTMLAttr }}>{{ $item.Title | markdownify | emojify }}</a></h4>
+      <h5><a href="{{ $link }}" {{ $target | safeHTMLAttr }}>{{ $item.Title | markdownify | emojify }}</a></h5>
+      <div class="card-desription">
+          <h5>{{ with $item.Params.skills }}<p>{{ . | markdownify | emojify }}</p>{{ end }}</h5>
+        </div>
       <div class="card-desription">
         {{ with $item.Params.summary }}<p>{{ . | markdownify | emojify }}</p>{{ end }}
       </div>
