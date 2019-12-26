@@ -55,7 +55,7 @@
               {{ $data_filter = .tag }}
               {{ end }}
               <a href="#" data-filter="{{ $data_filter | safeHTMLAttr }}"
-                class="btn btn-primary btn-lg{{ if eq $idx $filter_default }} active{{ end }}">{{ .name }}</a>
+                class="border btn btn-primary btn-lg{{ if eq $idx $filter_default }} active{{ end }}">{{ .name }}</a>
               {{ end }}
             </li>
           </ul>
