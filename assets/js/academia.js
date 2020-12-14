@@ -387,7 +387,6 @@
    * --------------------------------------------------------------------------- */
 
   $(document).ready(function () {
-
     // Fix Hugo's auto-generated Table of Contents.
     //   Must be performed prior to initializing ScrollSpy.
     $('#TableOfContents > ul > li > ul').unwrap().unwrap();
@@ -446,52 +445,6 @@
    * --------------------------------------------------------------------------- */
 
   $(window).on('load', function () {
-    
-    // Filter projects.
-    $('.projects-container').each(function (index, container) {
-      let $container = $(container);
-      let $section = $container.closest('section');
-      let layout;
-      if ($section.find('.isotope').hasClass('js-layout-row')) {
-        layout = 'fitRows';
-      } else {
-        layout = 'masonry';
-      }
-      
-      // Initialize Isotope after all images have loaded.
-      $container.isotope({
-        itemSelector: '.isotope-item',
-        layoutMode: layout,
-        masonry: {
-          gutter: 20
-        },
-        filter: $section.find('.default-project-filter').text()
-      });
-
-
-      // $container.imagesLoaded(function () {
-        
-      //   // Filter items when filter link is clicked.
-      //   $section.find('.project-filters a').click(function () {
-      //     let selector = $(this).attr('data-filter');
-      //     $container.isotope({
-      //       filter: selector
-      //     });
-      //     $(this).removeClass('active').addClass('active').siblings().removeClass('active all');
-      //     return false;
-      //   });
-
-      //   // If window hash is set, scroll to hash.
-      //   // Placing this within `imagesLoaded` prevents scrolling to the wrong location due to dynamic image loading
-      //   // affecting page layout and position of the target anchor ID.
-      //   // Note: If there are multiple project widgets on a page, ideally only perform this once after images
-      //   // from *all* project widgets have finished loading.
-      //   if (window.location.hash) {
-      //     scrollToAnchor();
-      //   }
-      // });
-    });
-
     if (window.location.hash) {
       // When accessing homepage from another page and `#top` hash is set, show top of page (no hash).
       if (window.location.hash == "#top") {
@@ -516,6 +469,49 @@
     $(window).resize(function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(fixScrollspy, 200);
+    });
+
+    // Filter projects.
+    $('.projects-container').each(function (index, container) {
+      let $container = $(container);
+      let $section = $container.closest('section');
+      let layout;
+      if ($section.find('.isotope').hasClass('js-layout-row')) {
+        layout = 'fitRows';
+      } else {
+        layout = 'masonry';
+      }
+
+      $container.imagesLoaded(function () {
+        // Initialize Isotope after all images have loaded.
+        $container.isotope({
+          itemSelector: '.isotope-item',
+          layoutMode: layout,
+          masonry: {
+            gutter: 20
+          },
+          filter: $section.find('.default-project-filter').text()
+        });
+
+        // Filter items when filter link is clicked.
+        $section.find('.project-filters a').click(function () {
+          let selector = $(this).attr('data-filter');
+          $container.isotope({
+            filter: selector
+          });
+          $(this).removeClass('active').addClass('active').siblings().removeClass('active all');
+          return false;
+        });
+
+        // If window hash is set, scroll to hash.
+        // Placing this within `imagesLoaded` prevents scrolling to the wrong location due to dynamic image loading
+        // affecting page layout and position of the target anchor ID.
+        // Note: If there are multiple project widgets on a page, ideally only perform this once after images
+        // from *all* project widgets have finished loading.
+        if (window.location.hash) {
+          scrollToAnchor();
+        }
+      });
     });
 
     // Enable publication filter for publication index page.
