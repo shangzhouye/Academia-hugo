@@ -481,18 +481,20 @@
       } else {
         layout = 'masonry';
       }
+      
+      // Initialize Isotope after all images have loaded.
+      $container.isotope({
+        itemSelector: '.isotope-item',
+        layoutMode: layout,
+        masonry: {
+          gutter: 20
+        },
+        filter: $section.find('.default-project-filter').text()
+      });
+
 
       $container.imagesLoaded(function () {
-        // Initialize Isotope after all images have loaded.
-        $container.isotope({
-          itemSelector: '.isotope-item',
-          layoutMode: layout,
-          masonry: {
-            gutter: 20
-          },
-          filter: $section.find('.default-project-filter').text()
-        });
-
+        
         // Filter items when filter link is clicked.
         $section.find('.project-filters a').click(function () {
           let selector = $(this).attr('data-filter');
